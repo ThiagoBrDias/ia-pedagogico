@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA Pedagógico - Plataforma de Edição de Materiais</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <h1>IA Pedagógico</h1>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-item active" data-section="home">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+          </button>
+          <button class="nav-item" data-section="pdf">
+            <i class="fas fa-file-pdf"></i>
+            <span>Edição de PDF</span>
+          </button>
+          <button class="nav-item" data-section="ppt">
+            <i class="fas fa-file-powerpoint"></i>
+            <span>Apresentações</span>
+          </button>
+          <button class="nav-item" data-section="ai">
+            <i class="fas fa-robot"></i>
+            <span>Ferramentas IA</span>
+          </button>
+          <button class="nav-item" data-section="content">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>Gerar Conteúdo</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn-secondary" onclick="checkHealth()">
+            <i class="fas fa-heart-pulse"></i> Status
+          </button>
+          <button class="btn-secondary" onclick="cleanupFiles()">
+            <i class="fas fa-trash"></i> Limpar
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+          <div class="header">
+            <h2>Bem-vindo ao IA Pedagógico</h2>
+            <p>
+              Plataforma completa para edição e criação de materiais pedagógicos
+              com IA
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card" onclick="navigateTo('pdf')">
+              <div class="feature-icon pdf">
+                <i class="fas fa-file-pdf"></i>
+              </div>
+              <h3>Edição de PDF</h3>
+              <p>
+                Extraia texto, mescle, divida e adicione marcas d'água em PDFs
+              </p>
+            </div>
+
+            <div class="feature-card" onclick="navigateTo('ppt')">
+              <div class="feature-icon ppt">
+                <i class="fas fa-file-powerpoint"></i>
+              </div>
+              <h3>Apresentações</h3>
+              <p>Crie e edite apresentações PowerPoint de forma inteligente</p>
+            </div>
+
+            <div class="feature-card" onclick="navigateTo('ai')">
+              <div class="feature-icon ai">
+                <i class="fas fa-robot"></i>
+              </div>
+              <h3>Ferramentas IA</h3>
+              <p>Melhore textos, gere questões, traduza e resuma conteúdos</p>
+            </div>
+
+            <div class="feature-card" onclick="navigateTo('content')">
+              <div class="feature-icon content">
+                <i class="fas fa-wand-magic-sparkles"></i>
+              </div>
+              <h3>Gerador de Conteúdo</h3>
+              <p>Crie planos de aula, exercícios e materiais pedagógicos</p>
+            </div>
+          </div>
+
+          <div class="info-banner">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <h4>Configuração Necessária</h4>
+              <p>
+                Para usar as funcionalidades de IA, configure suas chaves de API
+                no arquivo .env
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PDF Section -->
+        <section id="pdf" class="content-section">
+          <div class="header">
+            <h2><i class="fas fa-file-pdf"></i> Edição de PDF</h2>
+            <p>Ferramentas completas para trabalhar com arquivos PDF</p>
+          </div>
+
+          <div class="tools-grid">
+            <!-- Extrair Texto -->
+            <div class="tool-card">
+              <h3><i class="fas fa-file-lines"></i> Extrair Texto</h3>
+              <form id="extractTextForm" onsubmit="extractTextFromPDF(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pdfExtractFile"
+                    accept=".pdf"
+                    required
+                  />
+                  <label for="pdfExtractFile">
+                    <i class="fas fa-upload"></i> Escolher PDF (até 25MB)
+                  </label>
+                </div>
+                <div class="file-size-info">
+                  <small
+                    >📁 Arquivos grandes serão processados
+                    automaticamente</small
+                  >
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-text"></i> Extrair Texto
+                </button>
+              </form>
+              <div id="extractedText" class="result-box" style="display: none">
+                <h4>Texto Extraído:</h4>
+                <div class="text-content"></div>
+                <button
+                  onclick="copyToClipboard('extractedText')"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-copy"></i> Copiar
+                </button>
+              </div>
+            </div>
+
+            <!-- Mesclar PDFs -->
+            <div class="tool-card">
+              <h3><i class="fas fa-layer-group"></i> Mesclar PDFs</h3>
+              <form id="mergePDFForm" onsubmit="mergePDFs(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pdfMergeFiles"
+                    accept=".pdf"
+                    multiple
+                    required
+                  />
+                  <label for="pdfMergeFiles">
+                    <i class="fas fa-upload"></i> Escolher PDFs
+                  </label>
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-compress"></i> Mesclar
+                </button>
+              </form>
+            </div>
+
+            <!-- Dividir PDF -->
+            <div class="tool-card">
+              <h3><i class="fas fa-scissors"></i> Dividir PDF</h3>
+              <form id="splitPDFForm" onsubmit="splitPDF(event)">
+                <div class="file-upload">
+                  <input type="file" id="pdfSplitFile" accept=".pdf" required />
+                  <label for="pdfSplitFile">
+                    <i class="fas fa-upload"></i> Escolher PDF
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Páginas (ex: 1,3,5)"
+                  id="pdfPages"
+                  required
+                />
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-cut"></i> Dividir
+                </button>
+              </form>
+            </div>
+
+            <!-- Marca d'água -->
+            <div class="tool-card">
+              <h3><i class="fas fa-droplet"></i> Marca d'água</h3>
+              <form id="watermarkPDFForm" onsubmit="addWatermark(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pdfWatermarkFile"
+                    accept=".pdf"
+                    required
+                  />
+                  <label for="pdfWatermarkFile">
+                    <i class="fas fa-upload"></i> Escolher PDF
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Texto da marca d'água"
+                  id="watermarkText"
+                  required
+                />
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-stamp"></i> Adicionar
+                </button>
+              </form>
+            </div>
+
+            <!-- Dividir PDF Grande -->
+            <div class="tool-card">
+              <h3><i class="fas fa-scissors"></i> Dividir PDF Grande</h3>
+              <form id="splitLargePDFForm" onsubmit="splitLargePDF(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pdfLargeSplitFile"
+                    accept=".pdf"
+                    required
+                  />
+                  <label for="pdfLargeSplitFile">
+                    <i class="fas fa-upload"></i> Escolher PDF Grande (até 25MB)
+                  </label>
+                </div>
+                <input
+                  type="number"
+                  placeholder="Páginas por parte"
+                  id="pagesPerChunk"
+                  value="50"
+                  min="10"
+                  max="100"
+                />
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-cut"></i> Dividir em Partes
+                </button>
+              </form>
+            </div>
+
+            <!-- Comprimir PDF -->
+            <div class="tool-card">
+              <h3><i class="fas fa-compress"></i> Comprimir PDF</h3>
+              <form id="compressPDFForm" onsubmit="compressPDF(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pdfCompressFile"
+                    accept=".pdf"
+                    required
+                  />
+                  <label for="pdfCompressFile">
+                    <i class="fas fa-upload"></i> Escolher PDF (até 25MB)
+                  </label>
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-file-archive"></i> Comprimir
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- PPT Section -->
+        <section id="ppt" class="content-section">
+          <div class="header">
+            <h2>
+              <i class="fas fa-file-powerpoint"></i> Apresentações PowerPoint
+            </h2>
+            <p>Crie e edite apresentações profissionais</p>
+          </div>
+
+          <div class="tools-grid">
+            <!-- Criar Apresentação -->
+            <div class="tool-card full-width">
+              <h3><i class="fas fa-plus-circle"></i> Criar Apresentação</h3>
+              <form id="createPPTForm" onsubmit="createPresentation(event)">
+                <input
+                  type="text"
+                  placeholder="Título da apresentação"
+                  id="pptTitle"
+                  required
+                />
+                <div id="slidesContainer">
+                  <div class="slide-input">
+                    <input
+                      type="text"
+                      placeholder="Título do slide 1"
+                      class="slide-title"
+                      required
+                    />
+                    <textarea
+                      placeholder="Conteúdo do slide 1"
+                      class="slide-content"
+                      rows="3"
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onclick="addSlideInput()"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-plus"></i> Adicionar Slide
+                </button>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-file-powerpoint"></i> Criar Apresentação
+                </button>
+              </form>
+            </div>
+
+            <!-- Extrair Texto -->
+            <div class="tool-card">
+              <h3><i class="fas fa-file-export"></i> Extrair Texto</h3>
+              <form id="extractPPTForm" onsubmit="extractTextFromPPT(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pptExtractFile"
+                    accept=".pptx,.ppt"
+                    required
+                  />
+                  <label for="pptExtractFile">
+                    <i class="fas fa-upload"></i> Escolher PPT
+                  </label>
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-text"></i> Extrair
+                </button>
+              </form>
+              <div
+                id="extractedPPTText"
+                class="result-box"
+                style="display: none"
+              >
+                <h4>Conteúdo Extraído:</h4>
+                <div class="text-content"></div>
+              </div>
+            </div>
+
+            <!-- Adicionar Slide -->
+            <div class="tool-card">
+              <h3><i class="fas fa-file-circle-plus"></i> Adicionar Slide</h3>
+              <form id="addSlidePPTForm" onsubmit="addSlideToPPT(event)">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    id="pptAddSlideFile"
+                    accept=".pptx,.ppt"
+                    required
+                  />
+                  <label for="pptAddSlideFile">
+                    <i class="fas fa-upload"></i> Escolher PPT
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Título do novo slide"
+                  id="newSlideTitle"
+                  required
+                />
+                <textarea
+                  placeholder="Conteúdo do novo slide"
+                  id="newSlideContent"
+                  rows="3"
+                  required
+                ></textarea>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-plus"></i> Adicionar Slide
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI Tools Section -->
+        <section id="ai" class="content-section">
+          <div class="header">
+            <h2><i class="fas fa-robot"></i> Ferramentas de IA</h2>
+            <p>Utilize inteligência artificial para melhorar seus materiais</p>
+          </div>
+
+          <div class="tools-grid">
+            <!-- Melhorar Texto -->
+            <div class="tool-card">
+              <h3><i class="fas fa-wand-magic"></i> Melhorar Texto</h3>
+              <form id="improveTextForm" onsubmit="improveText(event)">
+                <textarea
+                  placeholder="Cole o texto aqui..."
+                  id="textToImprove"
+                  rows="5"
+                  required
+                ></textarea>
+                <select id="improveContext">
+                  <option value="educacional">Educacional</option>
+                  <option value="formal">Formal</option>
+                  <option value="informal">Informal</option>
+                  <option value="técnico">Técnico</option>
+                </select>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-sparkles"></i> Melhorar
+                </button>
+              </form>
+              <div id="improvedText" class="result-box" style="display: none">
+                <h4>Texto Melhorado:</h4>
+                <div class="text-content"></div>
+                <button
+                  onclick="copyToClipboard('improvedText')"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-copy"></i> Copiar
+                </button>
+              </div>
+            </div>
+
+            <!-- Resumir -->
+            <div class="tool-card">
+              <h3><i class="fas fa-compress-alt"></i> Resumir Texto</h3>
+              <form id="summarizeForm" onsubmit="summarizeText(event)">
+                <textarea
+                  placeholder="Cole o texto aqui..."
+                  id="textToSummarize"
+                  rows="5"
+                  required
+                ></textarea>
+                <input
+                  type="number"
+                  placeholder="Máximo de palavras"
+                  id="maxWords"
+                  value="200"
+                  min="50"
+                  max="1000"
+                />
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-file-contract"></i> Resumir
+                </button>
+              </form>
+              <div id="summarizedText" class="result-box" style="display: none">
+                <h4>Resumo:</h4>
+                <div class="text-content"></div>
+                <button
+                  onclick="copyToClipboard('summarizedText')"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-copy"></i> Copiar
+                </button>
+              </div>
+            </div>
+
+            <!-- Gerar Questões -->
+            <div class="tool-card">
+              <h3><i class="fas fa-clipboard-question"></i> Gerar Questões</h3>
+              <form
+                id="generateQuestionsForm"
+                onsubmit="generateQuestions(event)"
+              >
+                <textarea
+                  placeholder="Cole o texto base..."
+                  id="textForQuestions"
+                  rows="5"
+                  required
+                ></textarea>
+                <input
+                  type="number"
+                  placeholder="Número de questões"
+                  id="numQuestions"
+                  value="5"
+                  min="1"
+                  max="20"
+                />
+                <select id="questionDifficulty">
+                  <option value="fácil">Fácil</option>
+                  <option value="média" selected>Média</option>
+                  <option value="difícil">Difícil</option>
+                </select>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-list-check"></i> Gerar Questões
+                </button>
+              </form>
+              <div
+                id="generatedQuestions"
+                class="result-box"
+                style="display: none"
+              >
+                <h4>Questões Geradas:</h4>
+                <div class="text-content"></div>
+              </div>
+            </div>
+
+            <!-- Traduzir -->
+            <div class="tool-card">
+              <h3><i class="fas fa-language"></i> Traduzir</h3>
+              <form id="translateForm" onsubmit="translateText(event)">
+                <textarea
+                  placeholder="Cole o texto aqui..."
+                  id="textToTranslate"
+                  rows="5"
+                  required
+                ></textarea>
+                <select id="targetLanguage">
+                  <option value="inglês">Inglês</option>
+                  <option value="espanhol">Espanhol</option>
+                  <option value="francês">Francês</option>
+                  <option value="alemão">Alemão</option>
+                  <option value="italiano">Italiano</option>
+                </select>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-globe"></i> Traduzir
+                </button>
+              </form>
+              <div id="translatedText" class="result-box" style="display: none">
+                <h4>Tradução:</h4>
+                <div class="text-content"></div>
+                <button
+                  onclick="copyToClipboard('translatedText')"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-copy"></i> Copiar
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Content Generator Section -->
+        <section id="content" class="content-section">
+          <div class="header">
+            <h2>
+              <i class="fas fa-wand-magic-sparkles"></i> Gerador de Conteúdo
+            </h2>
+            <p>Crie materiais pedagógicos completos com IA</p>
+          </div>
+
+          <div class="tools-grid">
+            <!-- Plano de Aula -->
+            <div class="tool-card full-width">
+              <h3>
+                <i class="fas fa-chalkboard-teacher"></i> Gerar Plano de Aula
+              </h3>
+              <form id="lessonPlanForm" onsubmit="generateLessonPlan(event)">
+                <div class="form-row">
+                  <input
+                    type="text"
+                    placeholder="Disciplina"
+                    id="lessonSubject"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Série/Ano"
+                    id="lessonGrade"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <input
+                    type="text"
+                    placeholder="Tema da aula"
+                    id="lessonTopic"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Duração"
+                    id="lessonDuration"
+                    value="50 minutos"
+                  />
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-book"></i> Gerar Plano de Aula
+                </button>
+              </form>
+              <div
+                id="generatedLessonPlan"
+                class="result-box"
+                style="display: none"
+              >
+                <h4>Plano de Aula:</h4>
+                <div class="text-content"></div>
+                <button
+                  onclick="copyToClipboard('generatedLessonPlan')"
+                  class="btn-secondary"
+                >
+                  <i class="fas fa-copy"></i> Copiar
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de Exercícios -->
+            <div class="tool-card">
+              <h3><i class="fas fa-pencil"></i> Gerar Exercícios</h3>
+              <form id="exercisesForm" onsubmit="generateExercises(event)">
+                <input
+                  type="text"
+                  placeholder="Disciplina"
+                  id="exerciseSubject"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Tema"
+                  id="exerciseTopic"
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Número de exercícios"
+                  id="numExercises"
+                  value="10"
+                  min="1"
+                  max="30"
+                />
+                <select id="exerciseDifficulty">
+                  <option value="fácil">Fácil</option>
+                  <option value="média" selected>Média</option>
+                  <option value="difícil">Difícil</option>
+                </select>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-clipboard-list"></i> Gerar Exercícios
+                </button>
+              </form>
+              <div
+                id="generatedExercises"
+                class="result-box"
+                style="display: none"
+              >
+                <h4>Lista de Exercícios:</h4>
+                <div class="text-content"></div>
+              </div>
+            </div>
+
+            <!-- Estrutura de Apresentação -->
+            <div class="tool-card">
+              <h3>
+                <i class="fas fa-presentation-screen"></i> Estrutura de
+                Apresentação
+              </h3>
+              <form
+                id="presentationOutlineForm"
+                onsubmit="generatePresentationOutline(event)"
+              >
+                <input
+                  type="text"
+                  placeholder="Tema da apresentação"
+                  id="presentationTopic"
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Número de slides"
+                  id="presentationSlides"
+                  value="10"
+                  min="3"
+                  max="50"
+                />
+                <select id="presentationAudience">
+                  <option value="alunos">Alunos</option>
+                  <option value="professores">Professores</option>
+                  <option value="coordenação">Coordenação</option>
+                </select>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-sitemap"></i> Gerar Estrutura
+                </button>
+              </form>
+              <div
+                id="generatedOutline"
+                class="result-box"
+                style="display: none"
+              >
+                <h4>Estrutura da Apresentação:</h4>
+                <div class="text-content"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loader"></div>
+      <p>Processando...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
