@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA Pedagógico - Plataforma de Materiais Educacionais</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .container {
+        text-align: center;
+        max-width: 800px;
+        padding: 2rem;
+      }
+
+      .logo {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 300;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .feature {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .feature p {
+        opacity: 0.8;
+        font-size: 0.9rem;
+      }
+
+      .status {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: rgba(46, 204, 113, 0.2);
+        border: 1px solid rgba(46, 204, 113, 0.3);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+      }
+
+      .status h4 {
+        color: #2ecc71;
+        margin-bottom: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .title {
+          font-size: 2rem;
+        }
+
+        .buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">🎓</div>
+      <h1 class="title">IA Pedagógico</h1>
+      <p class="subtitle">
+        Plataforma completa para edição e criação de materiais pedagógicos com
+        Inteligência Artificial
+      </p>
+
+      <div class="buttons">
+        <a
+          href="https://web-production-6f700.up.railway.app"
+          class="btn btn-primary"
+        >
+          🚀 Acessar Aplicação Completa
+        </a>
+        <a href="https://github.com/ThiagoBrDias/ia-pedagogico" class="btn">
+          📁 Ver Código no GitHub
+        </a>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">📄</div>
+          <h3>Edição de PDF</h3>
+          <p>Extraia texto, mescle, divida e adicione marcas d'água em PDFs</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>Apresentações</h3>
+          <p>Crie e edite apresentações PowerPoint de forma inteligente</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🤖</div>
+          <h3>Ferramentas IA</h3>
+          <p>Melhore textos, gere questões, traduza e resuma conteúdos</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✨</div>
+          <h3>Gerador de Conteúdo</h3>
+          <p>Crie planos de aula, exercícios e materiais pedagógicos</p>
+        </div>
+      </div>
+
+      <div class="status">
+        <h4>✅ Status do Projeto</h4>
+        <p>
+          🚀 <strong>Railway:</strong> Aplicação completa funcionando<br />
+          📁 <strong>GitHub:</strong> Código fonte disponível<br />
+          🌐 <strong>GitHub Pages:</strong> Página de apresentação
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
